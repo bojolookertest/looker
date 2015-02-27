@@ -1,0 +1,14 @@
+- view: login_type
+  sql_table_name: LOGIN_TYPE
+  fields:
+
+  - dimension: code
+    sql: ${TABLE}.CODE
+
+  - dimension: description
+    sql: ${TABLE}.DESCRIPTION
+
+  - measure: count
+    type: count
+    drill_fields: []
+

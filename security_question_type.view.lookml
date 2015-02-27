@@ -1,0 +1,14 @@
+- view: security_question_type
+  sql_table_name: SECURITY_QUESTION_TYPE
+  fields:
+
+  - dimension: code
+    sql: ${TABLE}.CODE
+
+  - dimension: description
+    sql: ${TABLE}.DESCRIPTION
+
+  - measure: count
+    type: count
+    drill_fields: []
+
