@@ -28,6 +28,9 @@
     - join: hiring_manager
       foreign_key: job_posting.hiring_manager_person_id
       
+    - join: hiring_manager_facts
+      foreign_key: hiring_manager.person_id
+      
     - join: hiring_manager_person
       from: person
       foreign_key: hiring_manager.person_id
@@ -72,6 +75,63 @@
     - join: job_category
       foreign_key: job_posting.job_category_id
 
+- explore: job_posting
+  joins:
+
+    - join: company
+      foreign_key: company_id
+      
+    - join: hiring_manager
+      foreign_key: job_posting.hiring_manager_person_id
+
+    - join: hiring_manager_person
+      from: person
+      foreign_key: hiring_manager.person_id
+
+    - join: hiring_manager_facts
+      foreign_key: hiring_manager.person_id
+
+- explore: hiring_manager
+  joins:
+  
+    - join: person
+      foreign_key: person_id
+
+    - join: company
+      foreign_key: person.company_id
+
+    - join: hiring_manager_facts
+      foreign_key: person_id
+      relationship: one_to_one
+
+    - join: job_posting
+      sql_on: ${person.person_id} = ${job_posting.hiring_manager_person_id}
+      
+    - join: posting_action
+      sql_on: ${job_posting.job_posting_id} = ${posting_action.job_posting_id}
+
+    - join: submission
+      sql_on: ${job_posting.job_posting_id} = ${submission.job_posting_id}
+      
+    - join: candidate
+      sql_on: ${submission.candidate_id} = ${candidate.candidate_id}
+
+    - join: recruiter
+      foreign_key: candidate.recruiter_person_id
+
+    - join: recruiter_person
+      from: person
+      foreign_key: recruiter.person_id
+      
+    - join: hire
+      sql_on: ${submission.submission_id} = ${hire.submission_id}
+      relationship: one_to_many
+      
+    - join: posting_view
+      sql_on: ${job_posting.job_posting_id} = ${posting_view.job_posting_id} AND ${recruiter_person.person_id} = ${posting_view.person_id}
+      
+    - join: contract
+      sql_on: (${person.person_id} = ${contract.source_party_id} OR ${person.company_id} = ${contract.source_party_id}) AND (${recruiter_person.person_id} = ${contract.target_party_id} OR ${recruiter_person.company_id} = ${contract.target_party_id}) 
 # 
 # - explore: account
 #   joins:
@@ -1122,31 +1182,6 @@
 # - explore: job_category_status
 # 
 # - explore: job_category_temp
-# 
-# - explore: job_posting
-#   joins:
-#     - join: original_job_posting
-#       from: job_posting
-#       foreign_key: original_job_posting_id
-# 
-#     - join: company
-#       foreign_key: company_id
-# 
-#     - join: years_experience_type
-#       foreign_key: years_experience_type_id
-# 
-#     - join: region
-#       foreign_key: region_id
-# 
-#     - join: industry
-#       foreign_key: industry_id
-# 
-#     - join: job_category
-#       foreign_key: job_category_id
-# 
-#     - join: referral_program
-#       foreign_key: referral_program_id
-# 
 # 
 # - explore: job_posting_closed_reason
 # 

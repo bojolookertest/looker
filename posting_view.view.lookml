@@ -42,7 +42,7 @@
 
   - measure: count
     type: count
-    drill_fields: detail*
+    drill_fields: [job_posting.job_posting_id, job_posting.title, creation_date]
 
 
   # ----- Sets of fields for drilling ------

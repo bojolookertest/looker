@@ -219,10 +219,22 @@
     type: int
     # hidden: true
     sql: ${TABLE}.YEARS_EXPERIENCE_TYPE_ID
+    
+  - dimension: intake
+    type: yesno
+    sql: |
+      (${TABLE}.JOB_POSTING_ID IN (
+      SELECT JOB_POSTING_ID FROM PHONE_CONFERENCE_JOB_SCHEDULE)
+      )
+
+  - measure: PFP
+    sql: min(${TABLE}.creation_date)
+    
+    
 
   - measure: count
     type: count
-    drill_fields: detail*
+    drill_fields: [title,bounty,intake]
 
 
   # ----- Sets of fields for drilling ------

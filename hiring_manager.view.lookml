@@ -64,5 +64,5 @@
 
   - measure: count
     type: count
-    drill_fields: [billing_contact_name, person.person_id, person.first_name, person.last_name, company_size.id]
+    drill_fields: [person_id, business_unit]
 

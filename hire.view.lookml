@@ -59,5 +59,10 @@
 
   - measure: count
     type: count
-    drill_fields: [hire_id, submission.submission_id, bounty_request.count, payment.count]
+    drill_fields: [hire_id, submission.submission_id]
 
+  - measure: total_spend
+    type: sum
+    sql: ${award}
+    drill_fields: [person.email_address, total_spend]
+  

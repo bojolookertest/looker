@@ -40,10 +40,42 @@
 
   - dimension: posting_action_type_code
     sql: ${TABLE}.POSTING_ACTION_TYPE_CODE
+    
+  - dimension: is_contract2
+    type: yesno
+    sql: 
 
+  - dimension: is_contract
+    type: yesno
+    sql: |
+      EXISTS (SELECT CT.CONTRACT_ID
+      FROM JOB_POSTING JP
+      , PERSON EMP
+      , PERSON HH
+      , CONTRACT CT
+      WHERE JP.JOB_POSTING_ID = ${TABLE}.JOB_POSTING_ID
+      AND EMP.PERSON_ID = JP.HIRING_MANAGER_PERSON_ID
+      AND HH.PERSON_ID = ${TABLE}.PERSON_ID
+      AND (CT.SOURCE_PARTY_ID = EMP.PERSON_ID OR CT.SOURCE_PARTY_ID = EMP.COMPANY_ID)
+      AND (CT.TARGET_PARTY_ID = HH.PERSON_ID OR CT.TARGET_PARTY_ID = HH.COMPANY_ID)
+      AND NOW() >= CT.START_DATE
+      AND NOW() < CT.END_DATE)
+  
   - measure: count
     type: count
     drill_fields: detail*
+    
+  - measure: active_engagements_all
+    type: count
+    filters:
+      posting_action_status_code: A
+      
+  - measure: active_engagements_marketplace
+    type: count
+    filters:
+      posting_action_status_code: A
+      is_contract: yes
+  
 
 
   # ----- Sets of fields for drilling ------

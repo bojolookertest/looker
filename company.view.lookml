@@ -126,6 +126,10 @@
     type: count
     drill_fields: detail*
 
+  - measure: CFP
+    type: min
+    sql: ${TABLE}.CREATION
+
 
   # ----- Sets of fields for drilling ------
   sets:
