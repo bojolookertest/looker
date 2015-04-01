@@ -47,6 +47,7 @@
 
     - join: hire
       sql_on: ${submission.submission_id} = ${hire.submission_id}
+      relationship: one_to_many
 
     - join: job_posting_reviewer
       foreign_key: submission_reviewer.job_posting_reviewer_id
@@ -106,15 +107,19 @@
 
     - join: job_posting
       sql_on: ${person.person_id} = ${job_posting.hiring_manager_person_id}
+      relationship: one_to_many
       
     - join: posting_action
       sql_on: ${job_posting.job_posting_id} = ${posting_action.job_posting_id}
+      relationship: one_to_many
 
     - join: submission
       sql_on: ${job_posting.job_posting_id} = ${submission.job_posting_id}
+      relationship: one_to_many
       
     - join: candidate
       sql_on: ${submission.candidate_id} = ${candidate.candidate_id}
+      relationship: one_to_many
 
     - join: recruiter
       foreign_key: candidate.recruiter_person_id
@@ -129,9 +134,8 @@
       
     - join: posting_view
       sql_on: ${job_posting.job_posting_id} = ${posting_view.job_posting_id} AND ${recruiter_person.person_id} = ${posting_view.person_id}
+      relationship: one_to_many
       
-    - join: contract
-      sql_on: (${person.person_id} = ${contract.source_party_id} OR ${person.company_id} = ${contract.source_party_id}) AND (${recruiter_person.person_id} = ${contract.target_party_id} OR ${recruiter_person.company_id} = ${contract.target_party_id}) 
 # 
 # - explore: account
 #   joins:

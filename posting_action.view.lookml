@@ -41,10 +41,6 @@
   - dimension: posting_action_type_code
     sql: ${TABLE}.POSTING_ACTION_TYPE_CODE
     
-  - dimension: is_contract2
-    type: yesno
-    sql: 
-
   - dimension: is_contract
     type: yesno
     sql: |
@@ -67,24 +63,23 @@
     
   - measure: active_engagements_all
     type: count
+    drill_fields: detail*
     filters:
       posting_action_status_code: A
       
   - measure: active_engagements_marketplace
     type: count
+    drill_fields: detail*
     filters:
       posting_action_status_code: A
-      is_contract: yes
+      is_contract: no
   
 
 
   # ----- Sets of fields for drilling ------
   sets:
     detail:
-    - posting_action_id
-    - person.person_id
-    - person.first_name
-    - person.last_name
-    - job_posting.original_job_posting_id
-    - engagement_status.count
-
+    - creation_date
+    - recruiter_person.first_name
+    - recruiter_person.last_name
+    - recruiter_person.email_address
